@@ -21,3 +21,12 @@
 - O(n log n)：常见于快速排序、归并排序等高效排序算法。
 - O(n^2)：平方时间复杂度，常见于双重循环。
 - O(2^n)：指数时间复杂度，常见于递归问题（如斐波那契数列）。
+
+Python```
+def find_max(nums):
+    max_num = nums[0]          # O(1)
+    for num in nums:           # 循环 n 次
+        if num > max_num:      # O(1)
+            max_num = num      # O(1)
+    return max_num             # O(1)
+```
