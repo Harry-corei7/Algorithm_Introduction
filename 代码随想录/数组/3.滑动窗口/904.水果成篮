@@ -1,0 +1,71 @@
+`难度: 中等`
+
+题意: 找一个最长连续子数组，满足子数组中至多有两种数字。返回子数组的长度。
+
+你正在探访一家农场，农场从左到右种植了一排果树。这些树用一个整数数组 fruits 表示，其中 fruits[i] 是第 i 棵树上的水果 种类 。
+
+你想要尽可能多地收集水果。然而，农场的主人设定了一些严格的规矩，你必须按照要求采摘水果：
+
+1) 你只有 两个 篮子，并且每个篮子只能装 单一类型 的水果。每个篮子能够装的水果总量没有限制。
+2) 你可以选择任意一棵树开始采摘，你必须从 每棵 树（包括开始采摘的树）上 恰好摘一个水果 。采摘的水果应当符合篮子中的水果类型。每采摘一次，你将会向右移动到下一棵树，并继续采摘。
+3) 一旦你走到某棵树前，但水果不符合篮子的水果类型，那么就必须停止采摘。
+4) 给你一个整数数组 fruits ，返回你可以收集的水果的**最大**数目。
+
+---
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public int totalFruit(int[] fruits) {
+        // 利用Map机制, 达到count.size>2的控制
+        Map<Integer, Integer> count = new HashMap<>();
+        int left = 0;
+        int result = 0;
+
+        for(int right = 0; right < fruits.length; right++){
+            // 将right指针所指元素添加在count里
+            // Map操作: count.put(数组元素, count.get())
+            // 把当前"水果"加入窗口
+            count.put(fruits[right], count.getOrDefault(fruits[right], 0) + 1);
+
+            // 将left指针移动
+            // 把左指针"水果"移出窗口
+            // 移动窗口核心机制(1) // 达到临界值
+            while(count.size() > 2){
+                count.put(fruits[left], count.get(fruits[left]) - 1);
+                // 不停移动left指针, 直到count中考前的那一个"水果"被彻底删除
+                if(count.get(fruits[left]) == 0){
+                    count.remove(fruits[left]);
+                }
+                left++;
+            }
+
+            // 移动窗口核心机制(2)
+            result = Math.max(result, right - left + 1);
+
+            // Map-count操作汇总:
+            // (1) count.put -- 添加新元素
+            // (2) count.remove -- 去除新元素
+            // (3) count.get -- 获取+操作Map中的元素(+1,-1)
+            //     -- count.get(fruits[left] - 1)
+            // (4) count.getOrDefault -- 相较于get多了默认操作
+            //     -- count.getOrDefault((fruits[left], 默认操作) + 1)
+        }
+        return result; 
+    }
+}
+```
+
+---
+
+`利用HashMap的特性`
+
+***Map-count操作汇总:***
+1) count.put -- 添加新元素
+2) count.remove -- 去除新元素
+3) count.get -- 获取+操作Map中的元素(+1,-1)
+- count.get(fruits[left] - 1)
+4) count.getOrDefault -- 相较于get多了默认操作
+- count.getOrDefault((fruits[left], 默认操作) + 1)
