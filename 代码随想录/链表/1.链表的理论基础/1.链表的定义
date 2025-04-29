@@ -1,0 +1,32 @@
+链表节点的定义，很多同学在面试的时候都写不好。
+
+这是因为平时在刷leetcode的时候，链表的节点都默认定义好了，直接用就行了，所以同学们都没有注意到链表的节点是如何定义的。
+
+而在面试的时候，一旦要自己手写链表，就写的错漏百出。
+
+---
+
+```java
+public class ListNode {
+    // 结点的值
+    int val;
+
+    // 下一个结点
+    ListNode next;
+
+    // 节点的构造函数(无参)
+    public ListNode() {
+    }
+
+    // 节点的构造函数(有一个参数)
+    public ListNode(int val) {
+        this.val = val;
+    }
+
+    // 节点的构造函数(有两个参数)
+    public ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+```
